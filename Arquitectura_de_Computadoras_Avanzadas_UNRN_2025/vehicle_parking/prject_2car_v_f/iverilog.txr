@@ -1,0 +1,3 @@
+iverilog -g2012 -o simv   car_detector_fsm.sv   saturating_counter.sv   sync_debounce.sv   binary_to_bcd.sv   bcd_to_seven_seg.sv   display_mux.sv   top_nexys.sv   tb_parking_lot.sv
+
+para simular

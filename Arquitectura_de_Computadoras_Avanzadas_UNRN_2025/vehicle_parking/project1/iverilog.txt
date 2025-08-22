@@ -1,0 +1,12 @@
+iverilog -g2012 -o sim_output \
+  synchronizer.sv \
+  edge_detector.sv \
+  vehicle_detection_fsm.sv \
+  counter_control_fsm.sv \
+  binary_counter.sv \
+  bcd_converter.sv \
+  display_controller.sv \
+  vehicle_counter_top.sv \
+  tb_vehicle_counter.sv
+  
+para simular
