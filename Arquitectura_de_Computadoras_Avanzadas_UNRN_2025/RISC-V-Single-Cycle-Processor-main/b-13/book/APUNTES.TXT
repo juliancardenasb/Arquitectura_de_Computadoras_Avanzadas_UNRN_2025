@@ -1,0 +1,417 @@
+module top(
+    input   logic           clk, reset,
+    output  logic [31:0]    WriteData, DataAdr,
+    output  logic           MemWrite
+);
+    // Connects CPU to memories
+    riscv_single rvsingle ();  // The CPU core
+    imem imem ();              // Instruction memory
+    dmem dmem ();              // Data memory
+endmodule
+
+
+//  CPU-CORE
+module riscv_single(
+    input logic clk, reset,
+    output logic [31:0] PC,
+    input logic [31:0] Instr,
+    output logic MemWrite,
+    output logic [31:0] ALUResult, WriteData,
+    input logic [31:0] ReadData
+);
+    // Two main components:
+    controller c ();  // Control unit - decides what to do
+    datapath dp ();   // Execution unit - performs operations
+endmodule
+//INSTRUNCTION 
+FETCH:    imem.sv        - Read instruction from memory using PC
+DECODE:   controller.sv  - Decode opcode, generate control signals
+EXECUTE:  datapath.sv    - ALU operations, address calculation  
+MEMORY:   dmem.sv        - Load/store data memory
+WRITEBACK: regfile.sv    - Write results to registers
+
+Detailed Flow for add x3, x1, x2:
+Fetch: PC → imem → Instr = 0x002081B3
+
+Decode:
+
+opcode = 0110011 (R-type)
+
+funct3 = 000 (ADD)
+
+Control signals: ALUSrc=0, RegWrite=1, MemWrite=0, etc.
+
+Execute:
+
+Read x1, x2 from register file
+
+ALU computes x1 + x2
+
+Memory: No memory access (not load/store)
+
+Writeback: Write ALU result to x3
+
+RISC-V Instruction Formats:
+R-type: [funct7][rs2][rs1][funct3][rd][opcode]  - Register operations
+I-type: [imm12][rs1][funct3][rd][opcode]        - Immediate/loads
+S-type: [imm12hi][rs2][rs1][funct3][imm12lo][opcode] - Stores
+B-type: [imm12hi][rs2][rs1][funct3][imm12lo][opcode] - Branches
+
+Control Signal Generation (maindecoder.sv):
+case(op)
+    7'b0110011: controls = 11'b1_xx_0_0_00_0_10_0; // R-type
+    7'b0000011: controls = 11'b1_00_1_0_01_0_00_0; // lw
+    7'b0100011: controls = 11'b0_01_1_1_00_0_00_0; // sw
+    // ... more instructions
+endcase
+
+ALU-CONTROL
+case(funct3)
+    3'b000: if (RtypeSub) ALUControl = 3'b001; // sub
+            else ALUControl = 3'b000;          // add
+    3'b010: ALUControl = 3'b101; // slt
+    // ... more ALU operations
+endcase
+
+. How to Implement More Instructions
+Step 1: Add to Main Decoder
+In maindecoder.sv:
+
+case(op)
+    // Existing instructions...
+    7'b0010011: controls = 11'b1_00_1_0_00_0_10_0; // I-type ALU (already there)
+    // Add new instruction types:
+    7'b1100111: controls = 11'b1_00_0_0_10_0_00_1; // jalr
+    7'b0010111: controls = 11'b1_00_1_0_00_0_00_0; // auipc
+endcase
+
+Step 2: Add to ALU Decoder
+In aludec.sv:
+
+case(funct3)
+    // Existing operations...
+    3'b001: ALUControl = 3'b001; // slli (shift left logical immediate)
+    3'b101: if (funct7b5) ALUControl = 3'b110; // srai (shift right arithmetic)
+            else ALUControl = 3'b101;          // srli (shift right logical)
+endcase
+
+Step 3: Add New Immediate Types
+In extend.sv:
+
+case(immsrc)
+    // Existing...
+    2'b100: immext = {instr[31:12], 12'b0}; // U-type (auipc, lui)
+    default: immext = 32'bx;
+endcase
+
+5. Example: Implementing JALR Instruction
+JALR Format: jalr rd, offset(rs1)
+1. Update Main Decoder:
+
+7'b1100111: controls = 11'b1_00_1_0_10_0_00_1; // jalr
+// RegWrite=1, ImmSrc=00, ALUSrc=1, MemWrite=0, ResultSrc=10, Branch=0, ALUOp=00, Jump=1
+
+2. Modify PC Logic for JALR:
+
+// In datapath.sv, add JALR support
+logic [31:0] PCJalr;
+assign PCJalr = {SrcA + ImmExt[31:1], 1'b0}; // JALR target
+
+mux2 #(32) pcmux(
+    .d0(PCPlus4),
+    .d1(PCSrc ? PCTarget : PCJalr), // Choose between branch and JALR
+    .s(PCSrc | Jump),
+    .y(PCNext)
+);
+
+6. Creating Test Programs
+Method 1: Manual Assembly → Machine Code
+Create test.s:
+
+# Simple arithmetic test
+main:
+    addi x1, x0, 5       # x1 = 5
+    addi x2, x0, 10      # x2 = 10
+    add  x3, x1, x2      # x3 = 15
+    sw   x3, 100(x0)     # mem[100] = 15
+    lw   x4, 100(x0)     # x4 = 15
+    beq  x3, x4, success # should branch
+    j    fail
+success:
+    addi x5, x0, 25      # x5 = 25 (success marker)
+    sw   x5, 100(x0)     # mem[100] = 25
+fail:
+    j    fail
+
+
+00500093
+00A00113
+002081B3
+06302023
+06402203
+0E418663
+0040006F
+01900293
+06502023
+0000006F
+
+Method 2: Use RISC-V GCC Compiler
+# Install RISC-V toolchain
+sudo apt install gcc-riscv64-unknown-elf
+
+# Write C code
+echo "int main() { int a=5, b=10; return a+b; }" > test.c
+
+# Compile to RISC-V assembly
+riscv64-unknown-elf-gcc -S test.c -o test.s
+
+# Compile to machine code
+riscv64-unknown-elf-gcc -nostdlib -march=rv32i -mabi=ilp32 test.c -o test.elf
+
+# Extract machine code
+riscv64-unknown-elf-objcopy -O binary test.elf test.bin
+
+Method 3: Python Script to Generate Tests
+# generate_test.py
+instructions = [
+    "addi x1, x0, 5",    # 00500093
+    "addi x2, x0, 10",   # 00A00113  
+    "add x3, x1, x2",    # 002081B3
+    "sw x3, 100(x0)",    # 06302023
+]
+
+opcodes = {
+    "addi": "0010011", "add": "0110011", "sw": "0100011"
+}
+
+def assemble(instruction):
+    # Implementation of assembler
+    pass
+
+with open("riscvtest.txt", "w") as f:
+    for instr in instructions:
+        machine_code = assemble(instr)
+        f.write(f"{machine_code}\n")
+
+7. Comprehensive Test Structure
+Create Test Suites:
+
+tests/
+├── arithmetic/     # ADD, SUB, ADDI, etc.
+├── memory/         # LW, SW  
+├── control_flow/   # BEQ, JAL, JALR
+├── logical/        # AND, OR, XOR
+└── shifts/         # SLL, SRL, SRA
+
+Automated Testing Script:
+
+#!/bin/bash
+# run_tests.sh
+
+for testfile in tests/*.s; do
+    echo "Testing $testfile"
+    # Assemble to machine code
+    # Run simulation
+    # Check results
+    if grep -q "SUCCESS" simulation.log; then
+        echo "PASS: $testfile"
+    else
+        echo "FAIL: $testfile"
+    fi
+done
+*/  
+
+Test Program for LW, SW, BEQ, ADD, ADDI
+1. Create the Test Program
+File: probe_test.s
+
+# RISC-V Instruction Probe Test
+# Tests: ADDI, ADD, SW, LW, BEQ
+
+main:
+    # ADDI instruction: x1 = 5
+    addi x1, x0, 5           # x1 = 5
+    
+    # ADDI instruction: x2 = 10  
+    addi x2, x0, 10          # x2 = 10
+    
+    # ADD instruction: x3 = x1 + x2 = 15
+    add x3, x1, x2           # x3 = 15
+    
+    # SW instruction: Store x3 to memory address 100
+    sw x3, 100(x0)           # mem[100] = 15
+    
+    # LW instruction: Load from address 100 to x4
+    lw x4, 100(x0)           # x4 = 15
+    
+    # BEQ instruction: Compare x3 and x4 (should be equal)
+    beq x3, x4, success      # Branch to success if equal
+    
+    # If BEQ fails, we'll get here
+    addi x5, x0, 0           # x5 = 0 (failure marker)
+    sw x5, 104(x0)           # mem[104] = 0
+    j end
+    
+success:
+    # BEQ succeeded - mark success
+    addi x5, x0, 25          # x5 = 25 (success marker)
+    sw x5, 104(x0)           # mem[104] = 25
+    
+end:
+    # Infinite loop to stop simulation
+    beq x0, x0, end          # Infinite loop
+
+2. Convert to Machine Code
+File: riscvtest.txt
+00500093
+00A00113
+002081B3
+06302023
+06402203
+0E418663
+00000293
+06502223
+0040006F
+01900293
+06502223
+FE000AE3
+
+3. Enhanced Testbench with Instruction Probing
+File: testbench.sv
+
+module testbench();
+
+    logic        clk;
+    logic        reset;
+    logic [31:0] WriteData, DataAdr;
+    logic        MemWrite;
+
+    // instantiate device to be tested
+    top dut (
+        .clk(clk),
+        .reset(reset),
+        .WriteData(WriteData),
+        .DataAdr(DataAdr),
+        .MemWrite(MemWrite)
+    );
+
+    // initialize test
+    initial begin
+        reset <= 1; 
+        # 22;
+        reset <= 0;
+        $display("=== RISC-V INSTRUCTION PROBE TEST ===");
+        $display("Time PC       Instr     Opcode  Instruction");
+        $display("---- -------- --------  ------  -----------");
+    end
+
+    // generate clock to sequence tests
+    always begin
+        clk <= 1; # 5; clk <= 0; # 5;
+    end
+
+    // instruction decoder function
+    function string decode_instruction(input [31:0] instr);
+        automatic logic [6:0] opcode = instr[6:0];
+        automatic logic [2:0] funct3 = instr[14:12];
+        automatic logic [6:0] funct7 = instr[31:25];
+        automatic logic [4:0] rs1 = instr[19:15];
+        automatic logic [4:0] rs2 = instr[24:20];
+        automatic logic [4:0] rd = instr[11:7];
+        automatic logic [11:0] imm12 = instr[31:20];
+        
+        case(opcode)
+            7'b0010011: begin // I-type (ADDI)
+                return $sformatf("addi x%0d, x%0d, %0d", rd, rs1, $signed(imm12));
+            end
+            7'b0110011: begin // R-type (ADD)
+                case(funct3)
+                    3'b000: return $sformatf("add x%0d, x%0d, x%0d", rd, rs1, rs2);
+                    default: return "unknown R-type";
+                endcase
+            end
+            7'b0000011: begin // LOAD (LW)
+                case(funct3)
+                    3'b010: return $sformatf("lw x%0d, %0d(x%0d)", rd, $signed(imm12), rs1);
+                    default: return "unknown load";
+                endcase
+            end
+            7'b0100011: begin // STORE (SW)
+                automatic logic [11:0] sw_imm = {instr[31:25], instr[11:7]};
+                return $sformatf("sw x%0d, %0d(x%0d)", rs2, $signed(sw_imm), rs1);
+            end
+            7'b1100011: begin // BRANCH (BEQ)
+                automatic logic [11:0] b_imm = {instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
+                case(funct3)
+                    3'b000: return $sformatf("beq x%0d, x%0d, %0d", rs1, rs2, $signed(b_imm));
+                    default: return "unknown branch";
+                endcase
+            end
+            default: return $sformatf("unknown opcode: %7b", opcode);
+        endcase
+    endfunction
+
+    // monitor and probe instructions
+    always @(negedge clk) begin
+        if (!reset) begin
+            automatic string instr_name = decode_instruction(dut.rvsingle.dp.Instr);
+            
+            $display("%4d %h %h  %7b  %s", 
+                     $time, 
+                     dut.rvsingle.dp.PC,
+                     dut.rvsingle.dp.Instr,
+                     dut.rvsingle.dp.Instr[6:0],
+                     instr_name);
+            
+            // Display control signals for current instruction
+            $display("     Control: RegWrite=%b, ALUSrc=%b, MemWrite=%b, PCSrc=%b, ResultSrc=%b",
+                     dut.rvsingle.RegWrite,
+                     dut.rvsingle.ALUSrc, 
+                     dut.rvsingle.MemWrite,
+                     dut.rvsingle.PCSrc,
+                     dut.rvsingle.ResultSrc);
+            
+            // Display register writes
+            if (dut.rvsingle.RegWrite && dut.rvsingle.dp.Instr[11:7] != 0) begin
+                $display("     REG WRITE: x%0d = %h", 
+                        dut.rvsingle.dp.Instr[11:7], 
+                        dut.rvsingle.dp.Result);
+            end
+            
+            // Display memory accesses
+            if (MemWrite) begin
+                $display("     *** MEM WRITE: addr=%h, data=%h ***", DataAdr, WriteData);
+            end
+            
+            if (dut.rvsingle.dp.Instr[6:0] == 7'b0000011 &&  // LOAD
+                dut.rvsingle.dp.Instr[14:12] == 3'b010) begin // LW
+                $display("     *** MEM READ: addr=%h, data=%h ***", 
+                        dut.rvsingle.dp.ALUResult, 
+                        dut.rvsingle.dp.ReadData);
+            end
+            
+            // Check for success condition
+            if (DataAdr == 32'h68 && WriteData == 32'h19) begin // 104=0x68, 25=0x19
+                $display("=========================================");
+                $display("*** ALL INSTRUCTIONS WORK CORRECTLY! ***");
+                $display("*** ADDI, ADD, SW, LW, BEQ - ALL PASS ***");
+                $display("=========================================");
+                $stop;
+            end
+            
+            // Safety timeout
+            if ($time > 2000) begin
+                $display("=========================================");
+                $display("*** SIMULATION TIMEOUT ***");
+                $display("Last PC: %h", dut.rvsingle.dp.PC);
+                $display("=========================================");
+                $stop;
+            end
+            
+            $display("---");
+        end
+    end
+
+endmodule
+
+

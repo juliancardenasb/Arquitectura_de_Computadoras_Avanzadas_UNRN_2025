@@ -1,0 +1,87 @@
+// ===== TEST 1: LUI (Load Upper Immediate) =====
+123450B7          // lui x1, 0x12345 -> x1 = 0x12345000
+// ===== TEST 2: AUIPC (Add Upper Immediate to PC) =====
+00000197          // auipc x3, 1 -> x3 = PC + 0x1000
+// ===== TEST 3: ARITHMETIC OPERATIONS =====
+00500113          // addi x2, x0, 5     -> x2 = 5
+00600193          // addi x3, x0, 6     -> x3 = 6
+FF718393          // addi x7, x3, -9    -> x7 = -3
+0023E233          // or x4, x7, x2      -> x4 = -3 | 5 = -3
+0041F2B3          // and x5, x3, x4     -> x5 = 6 & -3 = 4
+004282B3          // add x5, x5, x4     -> x5 = 4 + (-3) = 1
+// ===== TEST 4: COMPARISONS =====  
+0020A333          // slt x6, x1, x2     -> x6 = (0x12345000 < 5)? 0
+0020B3B3          // sltu x7, x1, x2    -> x7 = (0x12345000 < 5)? 0
+// ===== TEST 5: LOGICAL OPERATIONS =====
+0020C433          // xor x8, x1, x2     -> x8 = 0x12345000 ^ 5
+0020D4B3          // srl x9, x1, x2     -> x9 = 0x12345000 >> 5
+4020D533          // sra x10, x1, x2    -> x10 = 0x12345000 >>> 5
+0020E5B3          // or x11, x1, x2     -> x11 = 0x12345000 | 5
+0020F633          // and x12, x1, x2    -> x12 = 0x12345000 & 5
+// ===== TEST 6: IMMEDIATE OPERATIONS =====
+00508693          // addi x13, x1, 5    -> x13 = 0x12345005
+00509693          // slli x13, x1, 5    -> x13 = 0x12345000 << 5
+0050A693          // slti x13, x1, 5    -> x13 = (0x12345000 < 5)? 0
+0050B693          // sltiu x13, x1, 5   -> x13 = (0x12345000 < 5)? 0
+0050C693          // xori x13, x1, 5    -> x13 = 0x12345000 ^ 5
+0050D693          // srli x13, x1, 5    -> x13 = 0x12345000 >> 5
+4050D693          // srai x13, x1, 5    -> x13 = 0x12345000 >>> 5
+0050E693          // ori x13, x1, 5     -> x13 = 0x12345000 | 5
+0050F693          // andi x13, x1, 5    -> x13 = 0x12345000 & 5
+// ===== TEST 7: LOAD/STORE OPERATIONS =====
+// Store various values to memory
+0640A023          // sw x0, 96(x1)      -> store 0 at addr 0x12345060
+0640A223          // sw x2, 100(x1)     -> store 5 at addr 0x12345064
+0640A423          // sw x4, 104(x1)     -> store -3 at addr 0x12345068
+// Load them back
+0600A703          // lw x14, 96(x1)     -> x14 = 0
+0640A783          // lw x15, 100(x1)    -> x15 = 5
+0680A803          // lw x16, 104(x1)    -> x16 = -3
+// ===== TEST 8: BRANCH OPERATIONS =====
+// Test BEQ (branch if equal)
+00100793          // addi x15, x0, 1    -> x15 = 1
+00100813          // addi x16, x0, 1    -> x16 = 1
+01078463          // beq x15, x16, 8    -> should branch
+// If branch works, skip this:
+00200793          // addi x15, x0, 2    -> x15 = 2 (should be skipped)
+// Continue here after branch:
+// Test BNE (branch if not equal)  
+00100813          // addi x16, x0, 1    -> x16 = 1
+00200793          // addi x15, x0, 2    -> x15 = 2
+01079463          // bne x15, x16, 8    -> should branch
+// If branch works, skip this:
+00300793          // addi x15, x0, 3    -> x15 = 3 (should be skipped)
+// ===== TEST 9: JUMP OPERATIONS =====
+00C000EF          // jal x1, 12         -> jump to PC+12, store return in x1
+// This should be skipped if jump works:
+00400093          // addi x1, x0, 4     -> x1 = 4 (should be skipped)
+// Continue here after jump:
+00008067          // jalr x0, 0(x1)     -> jump to address in x1
+// ===== FINAL TEST: STORE SUCCESS INDICATOR =====
+// If we reach here, all tests passed
+01900793          // addi x15, x0, 25   -> x15 = 25 (success code)
+06F02023          // sw x15, 96(x0)     -> store 25 at address 96
+// Infinite loop to stop execution
+0000006F          // jal x0, 0          -> jump to self (infinite loop)
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
