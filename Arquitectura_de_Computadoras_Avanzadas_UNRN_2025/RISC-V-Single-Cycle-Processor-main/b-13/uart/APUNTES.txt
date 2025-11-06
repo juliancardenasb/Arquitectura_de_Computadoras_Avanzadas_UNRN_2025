@@ -1,0 +1,59 @@
+Dirección	Registro	    Función
+0x10000000	UART_RX_DATA	Lectura de datos recibidos
+0x10000004	UART_STATUS	    Estado (bit 0: RX empty, bit 1: TX full)
+0x10000008	UART_TX_DATA	Escritura de datos a transmitir
+
+3. Ejemplo de Software (Assembly RISC-V)
+
+
+# Constantes
+.equ UART_BASE, 0x10000000
+.equ UART_STATUS, 0x10000004
+.equ UART_TX, 0x10000008
+
+# Enviar caracter por UART
+uart_send:
+    li t0, UART_STATUS
+wait_tx_ready:
+    lw t1, 0(t0)           # Leer registro de estado
+    andi t1, t1, 0x02      # Verificar si TX está lleno
+    bnez t1, wait_tx_ready # Esperar hasta que TX esté listo
+    
+    li t0, UART_TX
+    sb a0, 0(t0)           # Enviar caracter en a0
+    ret
+
+# Recibir caracter por UART
+uart_receive:
+    li t0, UART_STATUS
+wait_rx_data:
+    lw t1, 0(t0)           # Leer registro de estado
+    andi t1, t1, 0x01      # Verificar si RX está vacío
+    bnez t1, wait_rx_data  # Esperar hasta que haya datos
+    
+    li t0, UART_BASE
+    lb a0, 0(t0)           # Leer caracter recibido
+    ret
+
+# Ejemplo: enviar string
+uart_send_string:
+    mv t0, a0              # t0 = puntero al string
+send_loop:
+    lb t1, 0(t0)           # Cargar caracter
+    beqz t1, send_done     # Si es null, terminar
+    mv a0, t1
+    call uart_send         # Enviar caracter
+    addi t0, t0, 1         # Siguiente caracter
+    j send_loop
+send_done:
+    ret
+
+4. Consideraciones de Implementación
+
+Sincronización: La UART opera de forma asíncrona al CPU, requiriendo wait states
+
+Buffering: Los FIFOs permiten que el CPU no espere por cada operación UART
+
+Interrupciones: Se pueden agregar para notificar cuando hay datos disponibles
+
+DMA: Para transferencias de bloques grandes sin intervención del CPU
