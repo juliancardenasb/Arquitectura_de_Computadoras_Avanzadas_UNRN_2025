@@ -34,10 +34,16 @@ module top(
     // Señales para memoria y E/S
     logic [31:0] ReadDataMem, ReadDataIO;
     
+    // Lógica de selección mejorada
+    logic is_mem_access, is_io_access;
+    
+    assign is_mem_access = (DataAdr < 32'h00001000);
+    assign is_io_access = (DataAdr >= 32'h00001000 && DataAdr <= 32'h0000100F);
+    
     // Instanciar memoria de datos
     dmem dmem (
         .clk(clk),
-        .we(MemWrite && (DataAdr < 32'h00001000)), // Solo escribir en RAM si dirección < 0x1000
+        .we(MemWrite && is_mem_access), // Solo escribir en RAM
         .a(DataAdr),
         .wd(WriteData),
         .funct3(funct3),
@@ -47,7 +53,7 @@ module top(
     // Instanciar módulo de E/S
     io io_unit (
         .clk(clk),
-        .we(MemWrite && (DataAdr >= 32'h00001000 && DataAdr <= 32'h0000100F)),
+        .we(MemWrite && is_io_access), // Solo escribir en E/S
         .a(DataAdr),
         .wd(WriteData),
         .funct3(funct3),
@@ -58,8 +64,15 @@ module top(
         .seg2(seg2)
     );
 
-    // Multiplexor de lectura: seleccionar entre memoria y E/S
-    assign ReadData = (DataAdr < 32'h00001000) ? ReadDataMem : 
-                     (DataAdr >= 32'h00001000 && DataAdr <= 32'h0000100F) ? ReadDataIO : 32'b0;
+    // Multiplexor de lectura mejorado
+    always_comb begin
+        if (is_mem_access) begin
+            ReadData = ReadDataMem;
+        end else if (is_io_access) begin
+            ReadData = ReadDataIO;
+        end else begin
+            ReadData = 32'b0; // Dirección no mapeada
+        end
+    end
 
 endmodule
