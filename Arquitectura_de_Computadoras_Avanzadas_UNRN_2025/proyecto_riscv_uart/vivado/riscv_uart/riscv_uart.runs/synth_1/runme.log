@@ -1,0 +1,508 @@
+
+*** Running vivado
+    with args -log top_nexys.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_nexys.tcl
+
+
+
+****** Vivado v2024.1 (64-bit)
+  **** SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+  **** IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+  **** SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+  **** Start of session at: Tue Nov 18 14:49:26 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source top_nexys.tcl -notrace
+create_project: Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 531.605 ; gain = 234.469
+Command: read_checkpoint -auto_incremental -incremental C:/Users/carde/OneDrive/Escritorio/riscv/riscv_uart/riscv_uart.srcs/utils_1/imports/synth_1/top_nexys.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/carde/OneDrive/Escritorio/riscv/riscv_uart/riscv_uart.srcs/utils_1/imports/synth_1/top_nexys.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top top_nexys -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: [Device 21-9227] Part: xc7a100tcsg324-1 does not have CEAM library.
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 13656
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 1401.855 ; gain = 450.227
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'top_nexys' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/top_nexys.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'clock_divider' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/clock_divider.sv:1]
+	Parameter FREQ_MHZ bound to: 10 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'clock_divider' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/clock_divider.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'debounce' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/debounce.sv:1]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/debounce.sv:21]
+INFO: [Synth 8-6155] done synthesizing module 'debounce' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/debounce.sv:1]
+WARNING: [Synth 8-7071] port 'reset' of module 'debounce' is unconnected for instance 'db_reset' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/top_nexys.sv:34]
+WARNING: [Synth 8-7023] instance 'db_reset' of module 'debounce' has 4 connections declared, but only 3 given [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/top_nexys.sv:34]
+INFO: [Synth 8-6157] synthesizing module 'top' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/top.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'riscv_single' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/riscv_single.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'controller' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/controller.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'maindecoder' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/maindecoder.sv:1]
+INFO: [Synth 8-226] default block is never used [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/maindecoder.sv:43]
+INFO: [Synth 8-6155] done synthesizing module 'maindecoder' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/maindecoder.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'aludec' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/aludec.sv:1]
+INFO: [Synth 8-226] default block is never used [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/aludec.sv:15]
+INFO: [Synth 8-6155] done synthesizing module 'aludec' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/aludec.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'controller' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/controller.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'datapath' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/datapath.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'flopr' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/flopr.sv:1]
+	Parameter WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'flopr' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/flopr.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'adder' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/adder.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'adder' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/adder.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'mux2' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/mux2.sv:1]
+	Parameter WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'mux2' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/mux2.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'regfile' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/regfile.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'regfile' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/regfile.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'extend' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/extend.sv:1]
+INFO: [Synth 8-226] default block is never used [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/extend.sv:22]
+INFO: [Synth 8-6155] done synthesizing module 'extend' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/extend.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'alu' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/alu.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'alu' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/alu.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'mux3' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/mux3.sv:1]
+	Parameter WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'mux3' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/mux3.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'datapath' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/datapath.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'riscv_single' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/riscv_single.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'imem' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:1]
+CRITICAL WARNING: [Synth 8-4445] could not open $readmem data file 'programs/riscvtest.txt'; please make sure the file is added to project and has read permission, ignoring [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:13]
+INFO: [Synth 8-251] IMEM: Programa cargado correctamente [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:15]
+INFO: [Synth 8-251] IMEM[0] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[1] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[2] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[3] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[4] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[5] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[6] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[7] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[8] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-251] IMEM[9] = xxxxxxxx [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:17]
+INFO: [Synth 8-6155] done synthesizing module 'imem' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/imem.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'dmem' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/dmem.sv:1]
+INFO: [Synth 8-226] default block is never used [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/dmem.sv:39]
+INFO: [Synth 8-226] default block is never used [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/dmem.sv:72]
+INFO: [Synth 8-226] default block is never used [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/dmem.sv:91]
+INFO: [Synth 8-6155] done synthesizing module 'dmem' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/dmem.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'io' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/io.sv:1]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/io.sv:43]
+INFO: [Synth 8-6155] done synthesizing module 'io' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/io.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'riscv_uart' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/riscv_uart.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'uart_top' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/uart_top.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'band_rate_generator' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/band_rate_generator.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'band_rate_generator' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/band_rate_generator.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'receiver' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/receiver.sv:1]
+	Parameter DBIT bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'receiver' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/receiver.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'fifo' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/fifo.sv:1]
+	Parameter DATA_WIDTH bound to: 8 - type: integer 
+	Parameter FIFO_DEPTH bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'fifo' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/fifo.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'transmitter' [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/transmitter.sv:1]
+	Parameter DBIT bound to: 8 - type: integer 
+INFO: [Synth 8-226] default block is never used [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/transmitter.sv:48]
+INFO: [Synth 8-6155] done synthesizing module 'transmitter' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/transmitter.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'uart_top' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/uart_top.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'riscv_uart' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/riscv_uart.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'top' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/top.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'top_nexys' (0#1) [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/top_nexys.sv:1]
+WARNING: [Synth 8-6014] Unused sequential element new_word_reg was removed.  [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/dmem.sv:40]
+WARNING: [Synth 8-7137] Register mem_reg in module fifo has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code 
+WARNING: [Synth 8-7137] Register r_data_reg in module fifo has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/rtl/uart/fifo.sv:33]
+WARNING: [Synth 8-4767] Trying to implement RAM 'mem_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
+Reason is one or more of the following :
+	1: RAM is sensitive to asynchronous reset signal. this RTL style is not supported. 
+RAM "mem_reg" dissolved into registers
+WARNING: [Synth 8-3917] design top_nexys has port dp driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[7] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[6] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[5] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[4] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[3] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[2] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[1] driven by constant 0
+WARNING: [Synth 8-3917] design top_nexys has port an[0] driven by constant 0
+WARNING: [Synth 8-7129] Port write_data[31] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[30] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[29] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[28] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[27] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[26] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[25] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[24] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[23] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[22] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[21] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[20] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[19] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[18] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[17] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[16] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[15] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[14] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[13] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[12] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[11] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[10] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[9] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[8] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[31] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[30] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[29] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[28] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[27] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[26] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[25] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[24] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[23] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[22] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[21] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[20] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[19] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[18] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[17] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[16] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[15] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[14] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[13] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[12] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[11] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[10] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[9] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[8] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[7] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port funct3[2] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port funct3[1] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port funct3[0] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[1] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[0] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[7] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[6] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[5] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[4] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[15] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[14] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[13] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[12] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[11] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[10] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[9] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[8] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[7] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[6] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[5] in module top_nexys is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[4] in module top_nexys is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:11 . Memory (MB): peak = 1517.500 ; gain = 565.871
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:11 . Memory (MB): peak = 1517.500 ; gain = 565.871
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:11 . Memory (MB): peak = 1517.500 ; gain = 565.871
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.036 . Memory (MB): peak = 1517.500 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/constraint/Nexys-A7-100T-Master.xdc]
+CRITICAL WARNING: [Designutils 20-1307] Command 'IO_L3N_T0_DQS_EMCCLK_14' is not supported in the xdc constraint file. [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/constraint/Nexys-A7-100T-Master.xdc:16]
+Finished Parsing XDC File [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/constraint/Nexys-A7-100T-Master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/carde/OneDrive/Escritorio/riscv/proyecto riscv/constraint/Nexys-A7-100T-Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/top_nexys_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/top_nexys_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1620.953 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1620.953 ; gain = 0.000
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a100tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg_reg' in module 'receiver'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg_reg' in module 'transmitter'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |                               00 |                               00
+                   start |                               01 |                               01
+                    data |                               10 |                               10
+                    stop |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg_reg' using encoding 'sequential' in module 'receiver'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |                               00 |                               00
+                   start |                               01 |                               01
+                    data |                               10 |                               10
+                    stop |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg_reg' using encoding 'sequential' in module 'transmitter'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   32 Bit       Adders := 3     
+	   3 Input   32 Bit       Adders := 1     
+	   2 Input   20 Bit       Adders := 1     
+	   2 Input   11 Bit       Adders := 1     
+	   2 Input    8 Bit       Adders := 1     
+	   2 Input    5 Bit       Adders := 2     
+	   2 Input    4 Bit       Adders := 6     
+	   2 Input    3 Bit       Adders := 2     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
++---Registers : 
+	               32 Bit    Registers := 1     
+	               20 Bit    Registers := 1     
+	               11 Bit    Registers := 1     
+	                8 Bit    Registers := 37    
+	                7 Bit    Registers := 2     
+	                5 Bit    Registers := 2     
+	                4 Bit    Registers := 7     
+	                3 Bit    Registers := 2     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 5     
++---RAMs : 
+	               8K Bit	(256 X 32 bit)          RAMs := 1     
+	             1024 Bit	(32 X 32 bit)          RAMs := 1     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 13    
+	   4 Input   32 Bit        Muxes := 6     
+	  65 Input   32 Bit        Muxes := 1     
+	   3 Input   32 Bit        Muxes := 4     
+	   6 Input   32 Bit        Muxes := 1     
+	   4 Input   20 Bit        Muxes := 1     
+	   3 Input   16 Bit        Muxes := 1     
+	   6 Input   11 Bit        Muxes := 1     
+	   2 Input   11 Bit        Muxes := 1     
+	   7 Input   10 Bit        Muxes := 1     
+	   2 Input    9 Bit        Muxes := 1     
+	   4 Input    9 Bit        Muxes := 1     
+	   4 Input    8 Bit        Muxes := 2     
+	   2 Input    7 Bit        Muxes := 2     
+	   2 Input    4 Bit        Muxes := 5     
+	   8 Input    4 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 2     
+	   2 Input    3 Bit        Muxes := 1     
+	   4 Input    3 Bit        Muxes := 2     
+	   4 Input    2 Bit        Muxes := 3     
+	   2 Input    2 Bit        Muxes := 3     
+	   3 Input    2 Bit        Muxes := 2     
+	   4 Input    1 Bit        Muxes := 17    
+	   2 Input    1 Bit        Muxes := 48    
+	   3 Input    1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 240 (col length:80)
+BRAMs: 270 (col length: RAMB18 80 RAMB36 40)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-3917] design top_nexys has port dp driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[7] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[6] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[5] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[4] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[3] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[2] driven by constant 1
+WARNING: [Synth 8-3917] design top_nexys has port an[1] driven by constant 0
+WARNING: [Synth 8-3917] design top_nexys has port an[0] driven by constant 0
+WARNING: [Synth 8-7129] Port write_data[31] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[30] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[29] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[28] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[27] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[26] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[25] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[24] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[23] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[22] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[21] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[20] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[19] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[18] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[17] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[16] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[15] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[14] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[13] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[12] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[11] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[10] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[9] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port write_data[8] in module riscv_uart is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[31] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[30] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[29] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[28] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[27] in module io is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wd[26] in module io is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-6851] RAM (riscv_system/dmem/RAM_reg) has partial Byte Wide Write Enable pattern, however no output register found in fanout of RAM. Recommended to use supported Byte Wide Write Enable template. 
+WARNING: [Synth 8-3332] Sequential element (riscv_system/uart_unit/uart/rx_unit/FSM_sequential_state_reg_reg[1]) is unused and will be removed from module top_nexys.
+WARNING: [Synth 8-3332] Sequential element (riscv_system/uart_unit/uart/rx_unit/FSM_sequential_state_reg_reg[0]) is unused and will be removed from module top_nexys.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:21 ; elapsed = 00:00:26 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:34 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:34 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:28 ; elapsed = 00:00:34 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |     5|
+|3     |LUT1   |     1|
+|4     |LUT2   |    29|
+|5     |LUT3   |     8|
+|6     |LUT4   |    14|
+|7     |LUT5   |    16|
+|8     |LUT6   |    15|
+|9     |FDCE   |    25|
+|10    |FDPE   |     1|
+|11    |FDRE   |    33|
+|12    |IBUF   |     2|
+|13    |OBUF   |    29|
+|14    |OBUFT  |     4|
++------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 80 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:23 ; elapsed = 00:00:38 . Memory (MB): peak = 1620.953 ; gain = 565.871
+Synthesis Optimization Complete : Time (s): cpu = 00:00:34 ; elapsed = 00:00:41 . Memory (MB): peak = 1620.953 ; gain = 669.324
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1620.953 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 5 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1620.953 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: f5ed7f45
+INFO: [Common 17-83] Releasing license: Synthesis
+98 Infos, 127 Warnings, 2 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:40 ; elapsed = 00:00:49 . Memory (MB): peak = 1620.953 ; gain = 1084.715
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1620.953 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/carde/OneDrive/Escritorio/riscv/riscv_uart/riscv_uart.runs/synth_1/top_nexys.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file top_nexys_utilization_synth.rpt -pb top_nexys_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Nov 18 14:50:30 2025...
