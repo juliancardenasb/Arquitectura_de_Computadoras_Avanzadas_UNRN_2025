@@ -1,0 +1,51 @@
+# Test program for Nexys A7
+# Lee switches y escribe en LEDs y displays
+
+main:
+    # Leer switches (dirección 0x00001000)
+    lw x1, 0x1000(x0)
+    
+    # Escribir en LEDs (dirección 0x00001004)
+    sw x1, 0x1004(x0)
+    
+    # Convertir valor para display 7-seg
+    andi x2, x1, 0xF
+    addi x3, x0, 10
+    blt x2, x3, digit
+    addi x2, x2, 7        # A-F para hexadecimal
+    
+digit:
+    # Buscar patrón 7-seg en tabla
+    la x4, seg_table
+    add x4, x4, x2
+    lb x5, 0(x4)
+    
+    # Escribir en ambos displays
+    sb x5, 0x1008(x0)     # Display 1
+    sb x5, 0x100C(x0)     # Display 2
+    
+    # Delay loop
+    addi x6, x0, 1000000
+delay:
+    addi x6, x6, -1
+    bne x6, x0, delay
+    
+    j main
+
+seg_table:
+    .byte 0x3F  # 0
+    .byte 0x06  # 1
+    .byte 0x5B  # 2
+    .byte 0x4F  # 3
+    .byte 0x66  # 4
+    .byte 0x6D  # 5
+    .byte 0x7D  # 6
+    .byte 0x07  # 7
+    .byte 0x7F  # 8
+    .byte 0x6F  # 9
+    .byte 0x77  # A
+    .byte 0x7C  # B
+    .byte 0x39  # C
+    .byte 0x5E  # D
+    .byte 0x79  # E
+    .byte 0x71  # F
