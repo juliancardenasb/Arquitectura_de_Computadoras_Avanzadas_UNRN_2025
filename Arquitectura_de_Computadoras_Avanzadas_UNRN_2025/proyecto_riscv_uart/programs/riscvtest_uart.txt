@@ -1,0 +1,51 @@
+// Programa de prueba UART - Eco y mensaje fijo
+00002537        // lui x10, 0x2        (x10 = 0x2000 - base UART)
+00450513        // addi x10, x10, 4    (x10 = 0x2004 - registro de estado)
+
+// Transmitir mensaje inicial
+00002637        // lui x12, 0x2        (x12 = 0x2000 - registro de datos)
+04800593        // addi x11, x0, 72    (x11 = 'H')
+00b60023        // sb x11, 0(x12)      // Enviar 'H'
+06500593        // addi x11, x0, 101   (x11 = 'e')
+00b60023        // sb x11, 0(x12)      // Enviar 'e'
+06c00593        // addi x11, x0, 108   (x11 = 'l')
+00b60023        // sb x11, 0(x12)      // Enviar 'l'
+00b60023        // sb x11, 0(x12)      // Enviar 'l'
+06f00593        // addi x11, x0, 111   (x11 = 'o')
+00b60023        // sb x11, 0(x12)      // Enviar 'o'
+02000593        // addi x11, x0, 32    (x11 = ' ')
+00b60023        // sb x11, 0(x12)      // Enviar ' '
+03a00593        // addi x11, x0, 58    (x11 = ':')
+00b60023        // sb x11, 0(x12)      // Enviar ':'
+02000593        // addi x11, x0, 32    (x11 = ' ')
+00b60023        // sb x11, 0(x12)      // Enviar ' '
+00a00593        // addi x11, x0, 10    (x11 = '\n')
+00b60023        // sb x11, 0(x12)      // Enviar newline
+
+// Loop de eco: leer de UART y reenviar
+loop:
+00052683        // lw x13, 0(x10)      // Leer registro de estado
+0016f693        // andi x13, x13, 1    // Verificar bit rx_empty
+00068463        // beq x13, x0, leer    // Si no está vacío, leer
+0080006f        // jal x0, loop        // Volver a verificar
+
+leer:
+00064683        // lb x13, 0(x12)      // Leer carácter recibido
+
+// Esperar a que TX no esté lleno
+tx_wait:
+00052683        // lw x13, 0(x10)      // Leer registro de estado
+0026f693        // andi x13, x13, 2    // Verificar bit tx_full
+00068463        // beq x13, x0, enviar  // Si no está lleno, enviar
+0080006f        // jal x0, tx_wait     // Esperar
+
+enviar:
+00064683        // lb x13, 0(x12)      // Recargar carácter
+00d60023        // sb x13, 0(x12)      // Enviar carácter de vuelta
+00a00593        // addi x11, x0, 10    (x11 = '\n')
+00b60023        // sb x11, 0(x12)      // Enviar newline
+f95ff06f        // jal x0, loop        // Repetir
+
+// Programa nunca llega aquí
+01900713        // addi x14, x0, 25    (x14 = 25)
+06072023        // sw x14, 96(x0)      // Terminar programa (backup)
